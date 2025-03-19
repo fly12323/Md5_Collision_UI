@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 
 import java.io.*;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -126,7 +127,7 @@ public class Md5Controller {
     public void startSingleCollision() {
         String target = singleTargetField.getText().trim();
         int start = singleStartField.getText().isEmpty() ? 0 : Integer.parseInt(singleStartField.getText().trim());
-        int randLen = suffixLengthField.getText().isEmpty() ? 20 : Integer.parseInt(singleLengthField.getText().trim());
+        int randLen = singleLengthField.getText().isEmpty() ? 20 : Integer.parseInt(singleLengthField.getText().trim());
         final AtomicBoolean found = new AtomicBoolean(false);
         singleResultArea.clear();
 
@@ -277,10 +278,15 @@ public class Md5Controller {
         int messageLen = Integer.parseInt(msgLenStr);
         // 调用 MD5 扩展攻击（使用自定义实现）
         try {
-            Md5ExtensionAttack.Result result = Md5ExtensionAttack.attack(messageLen, knownHash, appendText.getBytes("UTF-8"));
+            Md5ExtensionAttack.Result result = Md5ExtensionAttack.attack(messageLen, knownHash, appendText.getBytes(StandardCharsets.ISO_8859_1)); // 输入字节使用 ISO-8859-1
+
             StringBuilder sb = new StringBuilder();
-            sb.append("Extend text: ").append(new String(result.extendText, "UTF-8")).append("\n");
-            sb.append("Extend text (URL encoded): ").append(java.net.URLEncoder.encode(new String(result.extendText, "UTF-8"), "UTF-8")).append("\n");
+            // 关键修改点：使用 ISO-8859-1 保持原始字节
+            String extendText = new String(result.extendText, StandardCharsets.ISO_8859_1);
+            sb.append("Extend text: ").append(extendText).append("\n");
+            sb.append("Extend text (URL encoded): ")
+                    .append(URLEncoder.encode(extendText, StandardCharsets.ISO_8859_1.name()))
+                    .append("\n");
             sb.append("Final hash: ").append(result.finalHash).append("\n");
             extendResultArea.setText(sb.toString());
         } catch (Exception ex) {

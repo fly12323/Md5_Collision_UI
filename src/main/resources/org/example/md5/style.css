@@ -1,24 +1,136 @@
-/* 整体背景 */
-.tab-pane {
-    -fx-background-color: #f0f8ff;
-    -fx-font-family: "Segoe UI", sans-serif;
+/* style.css */
+/* 整体背景渐变 */
+.root {
+    -fx-background-color: linear-gradient(to bottom right, #f0f8ff, #e6f3ff);
 }
 
-/* 按钮样式 */
+.tab-pane {
+    -fx-tab-min-width: 120px;
+    -fx-tab-max-width: 160px;
+    -fx-background-insets: 0;
+}
+
+/* 标签页样式 */
+.tab {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 5 5 0 0;
+    -fx-border-color: #d0d0d0;
+    -fx-border-width: 1 1 0 1;
+}
+
+.tab:selected {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #4682b4;
+    -fx-border-width: 2 2 0 2;
+}
+
+.tab-label {
+    -fx-text-fill: #2c3e50;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+}
+
+/* 按钮样式（现代扁平化设计） */
 .button {
-    -fx-background-color: #4682b4;
+    -fx-background-color: #5cacee;
     -fx-text-fill: white;
     -fx-font-size: 14px;
-    -fx-padding: 8 15 8 15;
+    -fx-padding: 10 20;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-cursor: hand;
 }
 
-/* 文本框样式 */
-.text-field, .text-area {
-    -fx-background-color: #e6f2ff;
-    -fx-font-size: 14px;
+.button:hover {
+    -fx-background-color: #4b9cdb;
 }
 
-/* ComboBox 样式 */
-.combo-box {
+.button:pressed {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 3);
+}
+
+/* 输入控件样式 */
+.text-field, .text-area, .combo-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d0d0d0;
+    -fx-border-radius: 4;
     -fx-font-size: 14px;
+    -fx-padding: 8 10;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 2);
+}
+
+.text-field:focused, .text-area:focused {
+    -fx-border-color: #5cacee;
+    -fx-effect: innershadow(gaussian, rgba(92,172,238,0.1), 10, 0, 0, 3);
+}
+
+/* 文本域自动换行 */
+.text-area {
+    -fx-wrap-text: true;
+    -fx-pref-row-count: 5;
+    -fx-pref-height: 120px;
+}
+
+.text-area .content {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 10;
+}
+
+/* 结果区域特殊样式 */
+#encryptionResultArea,
+#singleResultArea,
+#doubleResultArea,
+#suffixResultArea,
+#strongResultArea,
+#extendResultArea {
+    -fx-font-family: Consolas, monospace;
+    -fx-font-size: 13px;
+    -fx-border-color: #cce4ff;
+    -fx-background-color: #f8fbff;
+}
+
+/* 标签样式 */
+.label {
+    -fx-text-fill: #2c3e50;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+}
+
+/* 组合框下拉菜单 */
+.combo-box-popup .list-view {
+    -fx-background-color: white;
+    -fx-border-color: #d0d0d0;
+}
+
+.combo-box-popup .list-cell {
+    -fx-padding: 8 10;
+    -fx-background-color: white;
+}
+
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #f0f8ff;
+}
+
+/* 布局间距优化 */
+.vbox, .hbox {
+    -fx-spacing: 15;
+    -fx-padding: 15;
+}
+
+.grid-pane {
+    -fx-hgap: 15;
+    -fx-vgap: 15;
+    -fx-padding: 15;
+}
+
+/* 输入提示样式 */
+.prompt-text {
+    -fx-fill: #909090;
+    -fx-font-style: italic;
+}
+
+/* 特殊强调文本 */
+.result-highlight {
+    -fx-text-fill: #4682b4;
+    -fx-font-weight: bold;
 }
