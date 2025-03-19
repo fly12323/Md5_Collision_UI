@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<TabPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="org.example.md5.Md5Controller" stylesheets="@style.css">
+    <tabs>
+
+        <!-- MD5 加密页：支持选择输入类型 -->
+        <Tab text="MD5 加密" closable="false">
+            <VBox spacing="10" alignment="CENTER">
+                <padding>
+                    <Insets top="15" right="15" bottom="15" left="15"/>
+                </padding>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="输入类型:"/>
+                    <ComboBox fx:id="inputTypeComboBox" prefWidth="150">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="普通字符"/>
+                                <String fx:value="URL"/>
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                </HBox>
+                <TextField fx:id="encryptionInputField" promptText="请输入文本"/>
+                <Button text="计算 MD5" onAction="#startMd5Encryption"/>
+                <TextArea fx:id="encryptionResultArea" editable="false" promptText="MD5 哈希结果" prefRowCount="5"/>
+            </VBox>
+        </Tab>
+
+        <!-- 单次 MD5 碰撞 -->
+        <Tab text="单次 MD5 碰撞" closable="false">
+            <VBox spacing="10" alignment="CENTER">
+                <padding>
+                    <Insets top="10" left="10" right="10" bottom="10"/>
+                </padding>
+                <TextField fx:id="singleTargetField" promptText="目标 MD5 前缀 (如 0e)"/>
+                <TextField fx:id="singleStartField" promptText="起始位置 (默认 0)"/>
+                <TextField fx:id="singleLengthField" promptText="随机字符串长度 (默认 20)"/>
+                <Button text="开始搜索" onAction="#startSingleCollision"/>
+                <TextArea fx:id="singleResultArea" editable="false" promptText="结果输出" prefRowCount="5"/>
+            </VBox>
+        </Tab>
+
+        <!-- 双次 MD5 碰撞 -->
+        <Tab text="双次 MD5 碰撞" closable="false">
+            <VBox spacing="10" alignment="CENTER">
+                <padding>
+                    <Insets top="10" left="10" right="10" bottom="10"/>
+                </padding>
+                <TextField fx:id="doubleTargetField" promptText="目标 MD5 前缀 (如 0e)"/>
+                <TextField fx:id="doubleStartField" promptText="起始位置 (默认 0)"/>
+                <TextField fx:id="doubleLengthField" promptText="随机字符串长度 (默认 20)"/>
+                <Button text="开始搜索" onAction="#startDoubleCollision"/>
+                <TextArea fx:id="doubleResultArea" editable="false" promptText="结果输出" prefRowCount="5"/>
+            </VBox>
+        </Tab>
+
+        <!-- 后缀 MD5 碰撞 -->
+        <Tab text="后缀 MD5 碰撞" closable="false">
+            <VBox spacing="10" alignment="CENTER">
+                <padding>
+                    <Insets top="10" left="10" right="10" bottom="10"/>
+                </padding>
+                <TextField fx:id="suffixTargetField" promptText="目标 MD5 前缀 (如 0e)"/>
+                <TextField fx:id="suffixStartField" promptText="起始位置 (默认 0)"/>
+                <TextField fx:id="suffixLengthField" promptText="随机字符串长度 (默认 20)"/>
+                <TextField fx:id="suffixField" promptText="拼接的后缀字符串"/>
+                <Button text="开始搜索" onAction="#startSuffixCollision"/>
+                <TextArea fx:id="suffixResultArea" editable="false" promptText="结果输出" prefRowCount="5"/>
+            </VBox>
+        </Tab>
+
+        <!-- 强碰撞（调用外部 fastcoll 工具） -->
+        <Tab text="强碰撞" closable="false">
+            <VBox spacing="10" alignment="CENTER">
+                <padding>
+                    <Insets top="10" left="10" right="10" bottom="10"/>
+                </padding>
+                <TextField fx:id="strongPrefixField" promptText="强碰撞字符串前缀"/>
+                <Button text="调用 fastcoll" onAction="#startStrongCollision"/>
+                <TextArea fx:id="strongResultArea" editable="false" promptText="结果输出" prefRowCount="5"/>
+            </VBox>
+        </Tab>
+
+        <!-- MD5 长度扩展攻击 -->
+        <Tab text="MD5 长度扩展攻击" closable="false">
+            <VBox spacing="10" alignment="CENTER">
+                <padding>
+                    <Insets top="10" left="10" right="10" bottom="10"/>
+                </padding>
+                <TextField fx:id="extendMsgLenField" promptText="已知消息长度 (数字)"/>
+                <TextField fx:id="extendKnownHashField" promptText="已知 MD5 哈希"/>
+                <TextField fx:id="extendAppendField" promptText="追加文本"/>
+                <Button text="开始攻击" onAction="#startMd5ExtensionAttack"/>
+                <TextArea fx:id="extendResultArea" editable="false" promptText="结果输出" prefRowCount="5"/>
+            </VBox>
+        </Tab>
+    </tabs>
+</TabPane>

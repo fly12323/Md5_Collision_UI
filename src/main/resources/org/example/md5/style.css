@@ -1,0 +1,24 @@
+/* 整体背景 */
+.tab-pane {
+    -fx-background-color: #f0f8ff;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* 按钮样式 */
+.button {
+    -fx-background-color: #4682b4;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8 15 8 15;
+}
+
+/* 文本框样式 */
+.text-field, .text-area {
+    -fx-background-color: #e6f2ff;
+    -fx-font-size: 14px;
+}
+
+/* ComboBox 样式 */
+.combo-box {
+    -fx-font-size: 14px;
+}
