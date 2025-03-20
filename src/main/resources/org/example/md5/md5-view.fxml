@@ -32,29 +32,49 @@
             </VBox>
         </Tab>
 
-        <!-- 单次 MD5 碰撞 -->
-        <Tab text="单次 MD5 碰撞" closable="false">
-            <VBox spacing="10" alignment="CENTER">
-                <padding>
-                    <Insets top="10" left="10" right="10" bottom="10"/>
-                </padding>
-                <TextField fx:id="singleTargetField" promptText="目标 MD5 前缀 (如 0e)"/>
-                <TextField fx:id="singleStartField" promptText="起始位置 (默认 0)"/>
-                <TextField fx:id="singleLengthField" promptText="随机字符串长度 (默认 20)"/>
-                <Button text="开始搜索" onAction="#startSingleCollision"/>
-                <TextArea fx:id="singleResultArea" editable="false" promptText="结果输出" prefRowCount="5"/>
+        <Tab text="单次碰撞" closable="false">
+            <VBox spacing="10" alignment="CENTER" style="-fx-padding: 15;">
+                <children>
+                    <TextField fx:id="singleTargetField" promptText="目标子串"/>
+                    <TextField fx:id="singleStartField" promptText="开始位置 (默认0)"/>
+                    <TextField fx:id="singleLengthField" promptText="随机字符串长度 (默认20)"/>
+                    <!-- 新增：选择碰撞字符类型 -->
+                    <HBox spacing="5">
+                        <Label text="字符类型:"/>
+                        <ComboBox fx:id="singleCollisionTypeComboBox" promptText="选择字符类型">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="全部"/>
+                                    <String fx:value="数字"/>
+                                    <String fx:value="字母"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                    </HBox>
+                    <Button text="开始单次碰撞" onAction="#startSingleCollision"/>
+                    <TextArea fx:id="singleResultArea" prefRowCount="5" promptText="碰撞结果"/>
+                </children>
             </VBox>
         </Tab>
 
         <!-- 双次 MD5 碰撞 -->
         <Tab text="双次 MD5 碰撞" closable="false">
-            <VBox spacing="10" alignment="CENTER">
-                <padding>
-                    <Insets top="10" left="10" right="10" bottom="10"/>
-                </padding>
+            <VBox spacing="10" alignment="CENTER" style="-fx-padding: 15;">
                 <TextField fx:id="doubleTargetField" promptText="目标 MD5 前缀 (如 0e)"/>
                 <TextField fx:id="doubleStartField" promptText="起始位置 (默认 0)"/>
                 <TextField fx:id="doubleLengthField" promptText="随机字符串长度 (默认 20)"/>
+                <HBox spacing="5">
+                    <Label text="字符类型:"/>
+                    <ComboBox fx:id="doubleCollisionTypeComboBox" promptText="选择字符类型">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="全部"/>
+                                <String fx:value="数字"/>
+                                <String fx:value="字母"/>
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                </HBox>
                 <Button text="开始搜索" onAction="#startDoubleCollision"/>
                 <TextArea fx:id="doubleResultArea" editable="false" promptText="结果输出" prefRowCount="5"/>
             </VBox>
@@ -62,14 +82,23 @@
 
         <!-- 后缀 MD5 碰撞 -->
         <Tab text="后缀 MD5 碰撞" closable="false">
-            <VBox spacing="10" alignment="CENTER">
-                <padding>
-                    <Insets top="10" left="10" right="10" bottom="10"/>
-                </padding>
+            <VBox spacing="10" alignment="CENTER" style="-fx-padding: 15;">
                 <TextField fx:id="suffixTargetField" promptText="目标 MD5 前缀 (如 0e)"/>
                 <TextField fx:id="suffixStartField" promptText="起始位置 (默认 0)"/>
                 <TextField fx:id="suffixLengthField" promptText="随机字符串长度 (默认 20)"/>
                 <TextField fx:id="suffixField" promptText="拼接的后缀字符串"/>
+                <HBox spacing="5">
+                    <Label text="字符类型:"/>
+                    <ComboBox fx:id="suffixCollisionTypeComboBox" promptText="选择字符类型">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="全部"/>
+                                <String fx:value="数字"/>
+                                <String fx:value="字母"/>
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                </HBox>
                 <Button text="开始搜索" onAction="#startSuffixCollision"/>
                 <TextArea fx:id="suffixResultArea" editable="false" promptText="结果输出" prefRowCount="5"/>
             </VBox>

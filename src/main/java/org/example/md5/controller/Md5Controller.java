@@ -15,6 +15,7 @@ import org.example.md5.service.Md5Service;
  */
 public class Md5Controller {
 
+
     // FXML 控件（MD5 加密）
     @FXML private ComboBox<String> inputTypeComboBox;
     @FXML private TextField encryptionInputField;
@@ -25,12 +26,14 @@ public class Md5Controller {
     @FXML private TextField singleStartField;
     @FXML private TextField singleLengthField;
     @FXML private TextArea singleResultArea;
+    @FXML public ComboBox<String> singleCollisionTypeComboBox;
 
     // FXML 控件（双次 MD5 碰撞）
     @FXML private TextField doubleTargetField;
     @FXML private TextField doubleStartField;
     @FXML private TextField doubleLengthField;
     @FXML private TextArea doubleResultArea;
+    @FXML private ComboBox<String> doubleCollisionTypeComboBox;
 
     // FXML 控件（后缀 MD5 碰撞）
     @FXML private TextField suffixTargetField;
@@ -38,6 +41,7 @@ public class Md5Controller {
     @FXML private TextField suffixLengthField;
     @FXML private TextField suffixField;
     @FXML private TextArea suffixResultArea;
+    @FXML private ComboBox<String> suffixCollisionTypeComboBox;
 
     // FXML 控件（强碰撞）
     @FXML private TextField strongPrefixField;
@@ -77,10 +81,13 @@ public class Md5Controller {
         String target = singleTargetField.getText().trim();
         int start = singleStartField.getText().isEmpty() ? 0 : Integer.parseInt(singleStartField.getText().trim());
         int randLen = singleLengthField.getText().isEmpty() ? 20 : Integer.parseInt(singleLengthField.getText().trim());
+        // 如果未选择，默认为“全部”
+        String charType = (singleCollisionTypeComboBox.getValue() != null) ? singleCollisionTypeComboBox.getValue() : "全部";
         singleResultArea.clear();
 
         new Thread(() -> {
-            String result = collisionService.singleCollision(target, start, randLen);
+            // 调用单次碰撞方法时传入 charType 参数
+            String result = collisionService.singleCollision(target, start, randLen, charType);
             Platform.runLater(() -> singleResultArea.setText(result));
         }).start();
     }
@@ -93,10 +100,13 @@ public class Md5Controller {
         String target = doubleTargetField.getText().trim();
         int start = doubleStartField.getText().isEmpty() ? 0 : Integer.parseInt(doubleStartField.getText().trim());
         int randLen = doubleLengthField.getText().isEmpty() ? 20 : Integer.parseInt(doubleLengthField.getText().trim());
+        // 如果未选择，默认为“全部”
+        String charType = (doubleCollisionTypeComboBox.getValue() != null) ? doubleCollisionTypeComboBox.getValue() : "全部";
         doubleResultArea.clear();
 
         new Thread(() -> {
-            String result = collisionService.doubleCollision(target, start, randLen);
+            // 调用双次碰撞方法时传入 charType 参数
+            String result = collisionService.doubleCollision(target, start, randLen, charType);
             Platform.runLater(() -> doubleResultArea.setText(result));
         }).start();
     }
@@ -110,10 +120,13 @@ public class Md5Controller {
         int start = suffixStartField.getText().isEmpty() ? 0 : Integer.parseInt(suffixStartField.getText().trim());
         int randLen = suffixLengthField.getText().isEmpty() ? 20 : Integer.parseInt(suffixLengthField.getText().trim());
         String suffix = suffixField.getText().trim();
+        // 如果未选择，默认为“全部”
+        String charType = (suffixCollisionTypeComboBox.getValue() != null) ? suffixCollisionTypeComboBox.getValue() : "全部";
         suffixResultArea.clear();
 
         new Thread(() -> {
-            String result = collisionService.suffixCollision(target, start, randLen, suffix);
+            // 调用后缀碰撞方法时传入 charType 参数
+            String result = collisionService.suffixCollision(target, start, randLen, suffix, charType);
             Platform.runLater(() -> suffixResultArea.setText(result));
         }).start();
     }

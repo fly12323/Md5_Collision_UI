@@ -20,14 +20,21 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class CollisionService {
 
     /**
-     * 生成随机字符串
+     * 根据字符类型生成随机字符串
+     * @param len 随机字符串长度
+     * @param charType 字符类型，例如 "全部"、"数字"、"字母"
+     * @return 随机字符串
      */
-    private static final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    private String generateRandomString(int len) {
+    private String generateRandomString(int len, String charType) {
+        String allowedChars = switch (charType) {
+            case "数字" -> "0123456789";
+            case "字母" -> "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            default -> "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        };
         Random rand = new Random();
         StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++) {
-            sb.append(CHARS.charAt(rand.nextInt(CHARS.length())));
+            sb.append(allowedChars.charAt(rand.nextInt(allowedChars.length())));
         }
         return sb.toString();
     }
@@ -51,8 +58,12 @@ public class CollisionService {
 
     /**
      * 单次碰撞：寻找一个随机字符串，使其 MD5 指定位置子串匹配目标值
+     * @param target 目标子串
+     * @param start 开始位置
+     * @param randLen 随机字符串长度
+     * @param charType 字符类型（“全部”、“数字”、“字母”）
      */
-    public String singleCollision(String target, int start, int randLen) {
+    public String singleCollision(String target, int start, int randLen, String charType) {
         final AtomicBoolean found = new AtomicBoolean(false);
         final StringBuilder result = new StringBuilder();
         int cpus = Runtime.getRuntime().availableProcessors();
@@ -60,7 +71,8 @@ public class CollisionService {
 
         Runnable task = () -> {
             while (!found.get()) {
-                String rnd = generateRandomString(randLen);
+                // 使用指定字符类型生成随机字符串
+                String rnd = generateRandomString(randLen, charType);
                 String md5 = computeMD5(rnd);
                 if (md5.substring(start, start + target.length()).equals(target)) {
                     if (found.compareAndSet(false, true)) {
@@ -86,7 +98,7 @@ public class CollisionService {
     /**
      * 双次碰撞：寻找一个随机字符串，使其经过两次 MD5 计算后均满足目标匹配条件
      */
-    public String doubleCollision(String target, int start, int randLen) {
+    public String doubleCollision(String target, int start, int randLen, String charType) {
         final AtomicBoolean found = new AtomicBoolean(false);
         final StringBuilder result = new StringBuilder();
         int cpus = Runtime.getRuntime().availableProcessors();
@@ -94,7 +106,7 @@ public class CollisionService {
 
         Runnable task = () -> {
             while (!found.get()) {
-                String rnd = generateRandomString(randLen);
+                String rnd = generateRandomString(randLen, charType);
                 String md5_1 = computeMD5(rnd);
                 if (md5_1.substring(start, start + target.length()).equals(target)) {
                     String md5_2 = computeMD5(md5_1);
@@ -125,7 +137,7 @@ public class CollisionService {
     /**
      * 后缀碰撞：在随机字符串后拼接指定后缀后，计算 MD5 并匹配目标
      */
-    public String suffixCollision(String target, int start, int randLen, String suffix) {
+    public String suffixCollision(String target, int start, int randLen, String suffix, String charType) {
         final AtomicBoolean found = new AtomicBoolean(false);
         final StringBuilder result = new StringBuilder();
         int cpus = Runtime.getRuntime().availableProcessors();
@@ -133,7 +145,7 @@ public class CollisionService {
 
         Runnable task = () -> {
             while (!found.get()) {
-                String rnd = generateRandomString(randLen);
+                String rnd = generateRandomString(randLen, charType);
                 String combined = rnd + suffix;
                 String md5 = computeMD5(combined);
                 if (md5.substring(start, start + target.length()).equals(target)) {
